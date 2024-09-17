@@ -147,9 +147,6 @@
             <div class="choice-item" id="choice2">
                 <input type="text" placeholder="선택지 2">
             </div>
-            <div class="choice-item" id="choice3">
-                <input type="text" placeholder="선택지 3">
-            </div>
         </div>
 
         <button class="add-choice-btn" onclick="addChoice()">+ 선택지 추가</button>
@@ -160,7 +157,7 @@
     </div>
 
     <script>
-        let choiceCount = 3; // 초기 선택지 개수
+        let choiceCount = 2; // 초기 선택지 개수 2개
 
         // 선택지 추가 기능
         function addChoice() {
@@ -174,7 +171,7 @@
 
         // 마지막 선택지 삭제 기능
         function removeLastChoice() {
-            if (choiceCount > 1) {
+            if (choiceCount > 2) {  // 최소 2개의 선택지는 유지
                 const lastChoice = document.getElementById(`choice${choiceCount}`);
                 if (lastChoice) {
                     lastChoice.remove();
