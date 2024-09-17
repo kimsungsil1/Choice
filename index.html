@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>선택장애 해결 서비스</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #choices {
+            margin: 20px;
+        }
+        input[type="text"] {
+            width: 200px;
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <h1>선택장애 해결 서비스</h1>
+    <p>결정할 선택지를 입력하세요:</p>
+
+    <div id="choices">
+        <input type="text" id="choice1" placeholder="선택지 1">
+        <input type="text" id="choice2" placeholder="선택지 2">
+        <input type="text" id="choice3" placeholder="선택지 3">
+    </div>
+
+    <button onclick="makeDecision()">결정해줘!</button>
+
+    <div id="result"></div>
+
+    <script>
+        function makeDecision() {
+            // 입력된 선택지 가져오기
+            const choice1 = document.getElementById('choice1').value;
+            const choice2 = document.getElementById('choice2').value;
+            const choice3 = document.getElementById('choice3').value;
+
+            // 선택지를 배열로 저장
+            const choices = [choice1, choice2, choice3].filter(choice => choice !== '');
+
+            // 선택지가 없는 경우 경고 표시
+            if (choices.length === 0) {
+                document.getElementById('result').innerText = '선택지를 입력하세요!';
+                return;
+            }
+
+            // 랜덤으로 선택지 선택
+            const randomChoice = choices[Math.floor(Math.random() * choices.length)];
+
+            // 결과 출력
+            document.getElementById('result').innerText = `당신의 선택은: ${randomChoice}`;
+        }
+    </script>
+</body>
+</html>
