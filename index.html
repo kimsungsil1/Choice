@@ -5,76 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>선택장애 해결 서비스</title>
     <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
             text-align: center;
-            margin-top: 50px;
         }
-        #choices {
-            margin: 20px;
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #007bff;
         }
-        input[type="text"] {
-            width: 200px;
-            padding: 10px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 20px;
         }
+
+        .choices {
+            display: grid;
+            gap: 10px;
+        }
+
+        .choices input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .choices input:focus {
+            border-color: #007bff;
+        }
+
         button {
-            padding: 10px 20px;
-            margin: 10px;
-            border: none;
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
-            border-radius: 5px;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 1.2rem;
             cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
         }
+
         button:hover {
-            background-color: #218838;
+            background-color: #0056b3;
         }
+
         #result {
             margin-top: 20px;
-            font-size: 24px;
-            color: #007bff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #28a745;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media only screen and (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            p {
+                font-size: 0.9rem;
+            }
+            button {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>선택장애 해결 서비스</h1>
-    <p>결정할 선택지를 입력하세요:</p>
 
-    <div id="choices">
-        <input type="text" id="choice1" placeholder="선택지 1">
-        <input type="text" id="choice2" placeholder="선택지 2">
-        <input type="text" id="choice3" placeholder="선택지 3">
+    <div class="container">
+        <h1>선택장애 해결 서비스</h1>
+        <p>결정할 선택지를 입력하고 <br> 도움을 받아보세요!</p>
+
+        <div class="choices">
+            <input type="text" id="choice1" placeholder="선택지 1">
+            <input type="text" id="choice2" placeholder="선택지 2">
+            <input type="text" id="choice3" placeholder="선택지 3">
+        </div>
+
+        <button onclick="makeDecision()">결정해줘!</button>
+
+        <div id="result"></div>
     </div>
-
-    <button onclick="makeDecision()">결정해줘!</button>
-
-    <div id="result"></div>
 
     <script>
         function makeDecision() {
-            // 입력된 선택지 가져오기
             const choice1 = document.getElementById('choice1').value;
             const choice2 = document.getElementById('choice2').value;
             const choice3 = document.getElementById('choice3').value;
 
-            // 선택지를 배열로 저장
             const choices = [choice1, choice2, choice3].filter(choice => choice !== '');
 
-            // 선택지가 없는 경우 경고 표시
             if (choices.length === 0) {
                 document.getElementById('result').innerText = '선택지를 입력하세요!';
+                document.getElementById('result').style.color = 'red';
                 return;
             }
 
-            // 랜덤으로 선택지 선택
             const randomChoice = choices[Math.floor(Math.random() * choices.length)];
-
-            // 결과 출력
             document.getElementById('result').innerText = `당신의 선택은: ${randomChoice}`;
+            document.getElementById('result').style.color = '#28a745';  // Green color for success
         }
     </script>
+
 </body>
 </html>
