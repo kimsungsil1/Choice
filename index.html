@@ -44,11 +44,6 @@
             gap: 10px;
         }
 
-        .choice-item {
-            display: flex;
-            align-items: center;
-        }
-
         .choice-item input {
             width: 100%;
             padding: 12px;
@@ -60,21 +55,6 @@
 
         .choice-item input:focus {
             border-color: #007bff;
-        }
-
-        .choice-item button {
-            margin-left: 10px;
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .choice-item button:hover {
-            background-color: #c82333;
         }
 
         .add-choice-btn {
@@ -91,6 +71,22 @@
 
         .add-choice-btn:hover {
             background-color: #5a6268;
+        }
+
+        .remove-choice-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .remove-choice-btn:hover {
+            background-color: #c82333;
         }
 
         button {
@@ -147,19 +143,17 @@
         <div class="choices" id="choices-container">
             <div class="choice-item" id="choice1">
                 <input type="text" placeholder="선택지 1">
-                <button onclick="removeChoice('choice1')">삭제</button>
             </div>
             <div class="choice-item" id="choice2">
                 <input type="text" placeholder="선택지 2">
-                <button onclick="removeChoice('choice2')">삭제</button>
             </div>
             <div class="choice-item" id="choice3">
                 <input type="text" placeholder="선택지 3">
-                <button onclick="removeChoice('choice3')">삭제</button>
             </div>
         </div>
 
         <button class="add-choice-btn" onclick="addChoice()">+ 선택지 추가</button>
+        <button class="remove-choice-btn" onclick="removeLastChoice()">- 선택지 삭제</button>
         <button onclick="makeDecision()">결정해줘!</button>
 
         <div id="result"></div>
@@ -174,18 +168,18 @@
             const newChoice = document.createElement('div');
             newChoice.classList.add('choice-item');
             newChoice.id = `choice${choiceCount}`;
-            newChoice.innerHTML = `
-                <input type="text" placeholder="선택지 ${choiceCount}">
-                <button onclick="removeChoice('choice${choiceCount}')">삭제</button>
-            `;
+            newChoice.innerHTML = `<input type="text" placeholder="선택지 ${choiceCount}">`;
             document.getElementById('choices-container').appendChild(newChoice);
         }
 
-        // 선택지 제거 기능
-        function removeChoice(id) {
-            const choice = document.getElementById(id);
-            if (choice) {
-                choice.remove();
+        // 마지막 선택지 삭제 기능
+        function removeLastChoice() {
+            if (choiceCount > 1) {
+                const lastChoice = document.getElementById(`choice${choiceCount}`);
+                if (lastChoice) {
+                    lastChoice.remove();
+                    choiceCount--;
+                }
             }
         }
 
