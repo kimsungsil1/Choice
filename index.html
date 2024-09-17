@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>선택장애 해결 서비스</title>
     <style>
-        /* Reset CSS */
+        /* 기본 스타일 */
         * {
             margin: 0;
             padding: 0;
@@ -38,18 +38,18 @@
             color: #007bff;
         }
 
-        p {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
         .choices {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 10px;
         }
 
-        .choices input {
+        .choice-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .choice-item input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
@@ -58,8 +58,22 @@
             transition: border-color 0.3s ease;
         }
 
-        .choices input:focus {
+        .choice-item input:focus {
             border-color: #007bff;
+        }
+
+        .choice-item button {
+            margin-left: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .choice-item button:hover {
+            background-color: #c82333;
         }
 
         .add-choice-btn {
@@ -117,9 +131,6 @@
             h1 {
                 font-size: 1.5rem;
             }
-            p {
-                font-size: 0.9rem;
-            }
             button {
                 font-size: 1.1rem;
             }
@@ -130,44 +141,61 @@
 
     <div class="container">
         <h1>선택장애 해결 서비스</h1>
-        <p>결정할 선택지를 입력하고 <br> 도움을 받아보세요!</p>
 
         <div class="choices" id="choices-container">
-            <input type="text" id="choice1" placeholder="선택지 1">
-            <input type="text" id="choice2" placeholder="선택지 2">
-            <input type="text" id="choice3" placeholder="선택지 3">
+            <div class="choice-item" id="choice1">
+                <input type="text" placeholder="선택지 1">
+                <button onclick="removeChoice('choice1')">삭제</button>
+            </div>
+            <div class="choice-item" id="choice2">
+                <input type="text" placeholder="선택지 2">
+                <button onclick="removeChoice('choice2')">삭제</button>
+            </div>
+            <div class="choice-item" id="choice3">
+                <input type="text" placeholder="선택지 3">
+                <button onclick="removeChoice('choice3')">삭제</button>
+            </div>
         </div>
 
         <button class="add-choice-btn" onclick="addChoice()">+ 선택지 추가</button>
-
         <button onclick="makeDecision()">결정해줘!</button>
 
         <div id="result"></div>
     </div>
 
     <script>
-        // 선택지 추가 기능
         let choiceCount = 3; // 초기 선택지 개수
 
+        // 선택지 추가 기능
         function addChoice() {
             choiceCount++;
-            const newChoice = document.createElement('input');
-            newChoice.type = 'text';
-            newChoice.placeholder = `선택지 ${choiceCount}`;
+            const newChoice = document.createElement('div');
+            newChoice.classList.add('choice-item');
             newChoice.id = `choice${choiceCount}`;
-            newChoice.classList.add('choice-input');
+            newChoice.innerHTML = `
+                <input type="text" placeholder="선택지 ${choiceCount}">
+                <button onclick="removeChoice('choice${choiceCount}')">삭제</button>
+            `;
             document.getElementById('choices-container').appendChild(newChoice);
+        }
+
+        // 선택지 제거 기능
+        function removeChoice(id) {
+            const choice = document.getElementById(id);
+            if (choice) {
+                choice.remove();
+            }
         }
 
         // 랜덤 선택 기능
         function makeDecision() {
             const choices = [];
-            for (let i = 1; i <= choiceCount; i++) {
-                const choiceValue = document.getElementById(`choice${i}`).value;
-                if (choiceValue) {
-                    choices.push(choiceValue);
+            const inputs = document.querySelectorAll('.choices input');
+            inputs.forEach(input => {
+                if (input.value) {
+                    choices.push(input.value);
                 }
-            }
+            });
 
             if (choices.length === 0) {
                 document.getElementById('result').innerText = '선택지를 입력하세요!';
@@ -177,7 +205,7 @@
 
             const randomChoice = choices[Math.floor(Math.random() * choices.length)];
             document.getElementById('result').innerText = `당신의 선택은: ${randomChoice}`;
-            document.getElementById('result').style.color = '#28a745';  // 성공 색상
+            document.getElementById('result').style.color = '#28a745';
         }
     </script>
 
