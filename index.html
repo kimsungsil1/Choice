@@ -62,6 +62,21 @@
             border-color: #007bff;
         }
 
+        .add-choice-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .add-choice-btn:hover {
+            background-color: #5a6268;
+        }
+
         button {
             background-color: #007bff;
             color: white;
@@ -117,11 +132,13 @@
         <h1>선택장애 해결 서비스</h1>
         <p>결정할 선택지를 입력하고 <br> 도움을 받아보세요!</p>
 
-        <div class="choices">
+        <div class="choices" id="choices-container">
             <input type="text" id="choice1" placeholder="선택지 1">
             <input type="text" id="choice2" placeholder="선택지 2">
             <input type="text" id="choice3" placeholder="선택지 3">
         </div>
+
+        <button class="add-choice-btn" onclick="addChoice()">+ 선택지 추가</button>
 
         <button onclick="makeDecision()">결정해줘!</button>
 
@@ -129,12 +146,28 @@
     </div>
 
     <script>
-        function makeDecision() {
-            const choice1 = document.getElementById('choice1').value;
-            const choice2 = document.getElementById('choice2').value;
-            const choice3 = document.getElementById('choice3').value;
+        // 선택지 추가 기능
+        let choiceCount = 3; // 초기 선택지 개수
 
-            const choices = [choice1, choice2, choice3].filter(choice => choice !== '');
+        function addChoice() {
+            choiceCount++;
+            const newChoice = document.createElement('input');
+            newChoice.type = 'text';
+            newChoice.placeholder = `선택지 ${choiceCount}`;
+            newChoice.id = `choice${choiceCount}`;
+            newChoice.classList.add('choice-input');
+            document.getElementById('choices-container').appendChild(newChoice);
+        }
+
+        // 랜덤 선택 기능
+        function makeDecision() {
+            const choices = [];
+            for (let i = 1; i <= choiceCount; i++) {
+                const choiceValue = document.getElementById(`choice${i}`).value;
+                if (choiceValue) {
+                    choices.push(choiceValue);
+                }
+            }
 
             if (choices.length === 0) {
                 document.getElementById('result').innerText = '선택지를 입력하세요!';
@@ -143,8 +176,8 @@
             }
 
             const randomChoice = choices[Math.floor(Math.random() * choices.length)];
-            document.getElementById('result').innerText = `최고의 선택은: ${randomChoice}`;
-            document.getElementById('result').style.color = '#28a745';  // Green color for success
+            document.getElementById('result').innerText = `당신의 선택은: ${randomChoice}`;
+            document.getElementById('result').style.color = '#28a745';  // 성공 색상
         }
     </script>
 
